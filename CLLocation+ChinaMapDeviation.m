@@ -241,7 +241,7 @@ static BPRegion *china = nil;
     return latitudeDeviation;
 }
 
--(CLLocationCoordinate2D) correctedCoordinates {
+-(CLLocationCoordinate2D) deviatedCoordinates {
     CLLocationCoordinate2D coordinates = self.coordinate;
     
     if (china==nil) {
@@ -252,6 +252,22 @@ static BPRegion *china = nil;
     if ([china containsCoordinate:coordinates]) {
         coordinates.longitude = coordinates.longitude + [self longitudeDeviation];
         coordinates.latitude = coordinates.latitude + [self latitudeDeviation];
+    }
+    
+    return coordinates;
+}
+
+-(CLLocationCoordinate2D) undeviatedCoordinates {
+    CLLocationCoordinate2D coordinates = self.coordinate;
+    
+    if (china==nil) {
+        NSURL *url = [[NSBundle mainBundle] URLForResource:@"china" withExtension:@"kml"];
+        china = [BPRegion regionWithContentsOfURL:url];
+    }
+    
+    if ([china containsCoordinate:coordinates]) {
+        coordinates.longitude = coordinates.longitude - [self longitudeDeviation];
+        coordinates.latitude = coordinates.latitude - [self latitudeDeviation];
     }
     
     return coordinates;

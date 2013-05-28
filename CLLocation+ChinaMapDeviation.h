@@ -8,5 +8,6 @@
 #import <CoreLocation/CoreLocation.h>
 
 @interface CLLocation (ChinaMapDeviation)
--(CLLocationCoordinate2D) correctedCoordinates;
+-(CLLocationCoordinate2D) deviatedCoordinates;
+-(CLLocationCoordinate2D) undeviatedCoordinates;
 @end
